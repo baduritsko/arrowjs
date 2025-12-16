@@ -1,18 +1,18 @@
 class Seance {
-	#idSeance;
-	#volees;
-	#date;
-	#distance;
-	#blason;
-	#compteurVolees;
+	idSeance;
+	volees;
+	date;
+	distance;
+	blason;
+	compteurVolees;
 
-	constructor(date, distance, blason) {
-		this.idSeance = crypto.randomUUID();
+	constructor(date, distance, blason, idSeance = null, compteurVolees = 1) {
+		this.idSeance = (idSeance == null) ? this.idSeance = crypto.randomUUID() : idSeance;
 		this.date = date;
 		this.distance = distance;
 		this.blason = blason;
 		this.volees = [];
-		this.compteurVolees = 1;
+		this.compteurVolees = compteurVolees;
 	}
 
 	toString() {
@@ -34,6 +34,7 @@ class Seance {
 	addVolee() {
 		const volee = new Volee(this, this.compteurVolees++);
 		this.volees.push(volee);
+		DataManager.getInstance().saveLocalStorage();
 		return volee;
 	}
 

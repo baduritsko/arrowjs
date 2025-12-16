@@ -1,12 +1,12 @@
 class Fleche {
-	#valeur;
+	valeur;
 	#volee;
 
 	constructor(volee, valeur) {
-		this.volee = volee;
+		this.#volee = volee;
 		this.valeur = valeur;
 	}
 	getVolee() {
-		return this.volee;
+		return this.#volee;
 	}
 }

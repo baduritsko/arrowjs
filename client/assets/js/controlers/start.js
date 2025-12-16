@@ -1,5 +1,5 @@
 const afficheur = new Afficheur();
-const datamgr = DataManager()
+const datamgr = DataManager.loadLocalStorage();
 
 document.addEventListener("DOMContentLoaded", () => {
 	

@@ -1,16 +1,23 @@
 class DataManager {
-	#seances;
+	seances;
+	static #restauring = false;
+	static #instance;
 
 
 	constructor() {
 		this.seances = [];
+	}
 
+	static getInstance() {
+		if(DataManager.#instance == null) DataManager.#instance = new DataManager();
+		return DataManager.#instance;
 	}
 
 	addSeance(seance) {
 		toLog(seance.constructor.name);
 		if(!(seance instanceof Seance)) return;
 		this.seances.push(seance);
+		this.saveLocalStorage();
 	}
 
 	getSeances() {
@@ -34,15 +41,62 @@ class DataManager {
 	}
 
 	saveLocalStorage() {
+		toLog("saving...");
+		if(DataManager.#restauring) {
+			toLog("saving skiped");
+			return;
+		}
 		localStorage.setItem('data_arrow_js', JSON.stringify(this));
+		toLog("saved");
 	}
 
 	static loadLocalStorage() {
+		toLog("restauring data from local storage...");
 		const data = JSON.parse(localStorage.getItem('data_arrow_js'));
-		return 
-
+		const datamgr = new DataManager();
+		if(data == null) {
+			toLog("local file not found");
+		}
+		else {
+			DataManager.#restauring = true;
+			toLog(data);
+			// Restaurer chaque séance
+			if(data.seances && Array.isArray(data.seances)) {
+				datamgr.seances = data.seances.map(seanceData => {
+					// Créer une instance de Seance avec toutes les données
+					const seance = new Seance(
+						seanceData.date,
+						seanceData.distance,
+						seanceData.blason,
+						seanceData.idSeance,
+						seanceData.compteurVolees
+					);
+					// Restaurer les volées
+					if(seanceData.volees && Array.isArray(seanceData.volees)) {
+						seance.volees = seanceData.volees.map(voleeData => {
+							// Créer une instance de Volee avec l'heure originale
+							const volee = new Volee(
+								seance,
+								voleeData.idVolee,
+								voleeData.heure
+							);
+							
+							// Restaurer les flèches
+							if(voleeData.fleches && Array.isArray(voleeData.fleches)) {
+								volee.fleches = voleeData.fleches.map(flecheData => {
+									return new Fleche(volee, flecheData.valeur);
+								});
+							}
+							return volee;
+						});
+					}
+					return seance;
+				});
+			}
+		}
+		DataManager.#restauring = false;
+		toLog("local data restaured");
+		DataManager.#instance = datamgr;
+		return datamgr;
 	}
-
-
-
 }

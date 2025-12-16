@@ -1,21 +1,25 @@
 class Volee {
-	#idVolee;
+	idVolee;
 	#seance;
-	#heure;
-	#fleches;
+	heure;
+	fleches;
 
-	constructor(seance, idVolee) {
-		this.seance = seance;
+	constructor(seance, idVolee , heure = null) {
+		this.#seance = seance;
 		this.idVolee = idVolee;
-		const now = new Date(Date.now());
-		this.heure = now.getHours() + ":" + (now.getMinutes() < 10 ? "0" + now.getMinutes() : now.getMinutes());
+		if(heure == null) {
+			const now = new Date(Date.now());
+			this.heure = now.getHours() + ":" + (now.getMinutes() < 10 ? "0" + now.getMinutes() : now.getMinutes());
+		}
+		else this.heure = heure;
 		this.fleches = [];
 	}
+	
 	getId() {
 		return this.idVolee;
 	}
 	getSeance() {
-		return this.seance;
+		return this.#seance;
 	}
 	toString() {
 		return this.idVolee + " - " + "Volée à " + this.heure;
