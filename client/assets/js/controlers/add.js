@@ -37,7 +37,7 @@ function saveNewSeance()
 	}
 	const seance = new Seance(getFormattedDate(), distance, blason);
 	datamgr.addSeance(seance);
-	displayListeSeances();
+	displayListeVolees(seance.getId());
 }
 
 function saveNewVolee(idSeance) {
@@ -48,5 +48,21 @@ function saveNewVolee(idSeance) {
 	}
 	const volee = seance.addVolee();
 	afficheur.setVolee(volee);
-	displayListeFleches(volee.getId());
+	displayFormListeFleches(volee.getId());
+}
+
+function saveFlechesVolee() {
+	const volee = afficheur.getVolee();
+	if(volee == null) {
+		return;
+	}
+	for(let i = 1; i < 9; i++) {
+		const value = document.getElementById("fleche" + i).value;
+		toLog("fleche" + i + " a la valeur " + value);
+		if(value > -2 || value == '10+') {
+			volee.addFleche(value);
+		}
+	}
+	DataManager.getInstance().saveLocalStorage();
+	displayListeVolees(volee.getSeance().getId());
 }

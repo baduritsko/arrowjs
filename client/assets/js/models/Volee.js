@@ -21,8 +21,31 @@ class Volee {
 	getSeance() {
 		return this.#seance;
 	}
+	getFleches() { return this.fleches; }
 	toString() {
-		return this.idVolee + " - " + "Volée à " + this.heure;
+		let retour;
+		retour =  "Volée à " + this.heure;
+		const values = this.getValue();
+		if(values[0] > 0) { //au moins une flèche
+			retour = "Volée de " + conjugue(values[0], 'flèche', 'flèches', true) +  " à " + this.heure;
+			retour += "<br>Total : " + values[1] + ", moyenne : " + values[2];
+		}
+		return retour;
 	}
-
+	addFleche(value) {
+		const fleche = new Fleche(this, value);
+		this.fleches.push(fleche);
+		return fleche;
+	}
+	getValue() { //retourne nbFleches, total, moyenne
+		let total = 0;
+		let nbFleches = 0;
+		for(let key in this.fleches) {
+			const fleche = this.fleches[key];
+			total += fleche.getValue()[1];
+			nbFleches++;
+		}
+		if(nbFleches == 0) return [0, 0, 0];
+		return [nbFleches, total, Math.round(10 * total / nbFleches) / 10];
+	}
 }

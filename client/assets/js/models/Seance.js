@@ -16,7 +16,7 @@ class Seance {
 	}
 
 	toString() {
-		return "Séance du " + this.date + " à " + this.distance + " m sur blason de " + this.blason + " cm";
+		return "Séance du " + formatFrenchDate(this.date) + " à " + this.distance + " m sur blason de " + this.blason + " cm";
 	}
 	getId() {
 		return this.idSeance;
