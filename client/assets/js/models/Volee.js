@@ -51,4 +51,7 @@ class Volee {
 		if(nbFleches == 0) return [0, 0, 0, 0];
 		return [nbFleches, total, Math.round(10 * total / nbFleches) / 10, 1];
 	}
+	hasValue(onTrue = true, onFalse = false) { 
+		return (this.getValue()[0] > 0 ? onTrue : onFalse);
+	}
 }
