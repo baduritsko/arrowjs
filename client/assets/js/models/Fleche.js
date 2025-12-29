@@ -12,7 +12,7 @@ class Fleche {
 	getValue() {
 		let value = (this.valeur == '10+' ? 10 : parseInt(this.valeur));
 		value = isNaN(value) ? 0 : value;
-		return [1, value, value];
+		return [1, value, value, 0];
 	}
 	toString() {
 		return this.valeur;

@@ -4,13 +4,17 @@ class Afficheur {
 
 	setSeance(seance) {
 		this.#selectedSeance = seance;
+		this.#selectedVolee = null;
 	}
 
 	setVolee(volee) {
 		this.#selectedVolee = volee;
 	}
-	getVolee(volee) {
+	getVolee() {
 		return this.#selectedVolee;
+	}
+	getSeance() {
+		return this.#selectedSeance;
 	}
 
 	reset() {
@@ -28,14 +32,18 @@ class Afficheur {
 			toLog("#appMenu n'est pas disponible");
 			return null;
 		}
-		am.innerHTML = "<button onclick='getAccueil();'>Accueil</button>";
+		let content = "<button onclick='getAccueil();'>Accueil</button>";
+		
 		if(this.#selectedVolee) {
-			am.innerHTML += "<button onclick='displayListeVolees(\"" + this.#selectedSeance.getId() + "\");'>Retour à la séance</button>";
-			am.innerHTML += "<br><h3>" + this.#selectedVolee + "</h3>";
+			content += "<button onclick='displayListeVolees(\"" + this.#selectedSeance.getId() + "\");'>Retour à la séance</button>";
+			content += "<br><h3>" + this.#selectedVolee.toString(true) + "</h3>";
+			content += "<div id='deleteSpace'><button onclick='showDeleteVolee();'>Supprimer cette volée</button></div>";
 		}
 		else if(this.#selectedSeance) {
-			am.innerHTML += "<br><h3>" + this.#selectedSeance + "</h3>";
+			content += "<br><h3>" + this.#selectedSeance.toString(true) + "</h3>";
+			content += "<div id='deleteSpace'><button onclick='showDeleteSeance();'>Supprimer cette séance</button></div>";
 		}
+		am.innerHTML = content;
 	}
 
 	drawListe(title, iterable, fonctionItemClick = null, fonctionAddClick = null, nameAddClick = null, paramsAddClick = null) {

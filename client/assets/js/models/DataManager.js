@@ -40,6 +40,17 @@ class DataManager {
 		return null;
 	}
 
+	deleteSeance(idSeance) {
+		this.seances = this.seances.filter(seance => seance.getId() !== idSeance);
+		this.saveLocalStorage();
+	}
+
+	deleteVolee(idSeance, idVolee) {
+		const seance = this.getSeance(idSeance);
+		if(seance == null) return;
+		seance.deleteVolee(idVolee);
+	}
+
 	saveLocalStorage() {
 		toLog("saving...");
 		if(DataManager.#restauring) {
@@ -53,49 +64,56 @@ class DataManager {
 	static loadLocalStorage() {
 		toLog("restauring data from local storage...");
 		const data = JSON.parse(localStorage.getItem('data_arrow_js'));
-		const datamgr = new DataManager();
+		let datamgr = new DataManager();
 		if(data == null) {
 			toLog("local file not found");
 		}
 		else {
-			DataManager.#restauring = true;
-			toLog(data);
-			// Restaurer chaque séance
-			if(data.seances && Array.isArray(data.seances)) {
-				datamgr.seances = data.seances.map(seanceData => {
-					// Créer une instance de Seance avec toutes les données
-					const seance = new Seance(
-						seanceData.date,
-						seanceData.distance,
-						seanceData.blason,
-						seanceData.idSeance,
-						seanceData.compteurVolees
-					);
-					// Restaurer les volées
-					if(seanceData.volees && Array.isArray(seanceData.volees)) {
-						seance.volees = seanceData.volees.map(voleeData => {
-							// Créer une instance de Volee avec l'heure originale
-							const volee = new Volee(
-								seance,
-								voleeData.idVolee,
-								voleeData.heure
-							);
-							
-							// Restaurer les flèches
-							if(voleeData.fleches && Array.isArray(voleeData.fleches)) {
-								volee.fleches = voleeData.fleches.map(flecheData => {
-									return new Fleche(volee, flecheData.valeur);
-								});
-							}
-							return volee;
-						});
-					}
-					return seance;
-				});
+			try {
+				DataManager.#restauring = true;
+				toLog(data);
+				// Restaurer chaque séance
+				if(data.seances && Array.isArray(data.seances)) {
+					datamgr.seances = data.seances.map(seanceData => {
+						// Créer une instance de Seance avec toutes les données
+						const seance = new Seance(
+							seanceData.date,
+							seanceData.distance,
+							seanceData.blason,
+							seanceData.idSeance,
+							seanceData.compteurVolees
+						);
+						// Restaurer les volées
+						if(seanceData.volees && Array.isArray(seanceData.volees)) {
+							seance.volees = seanceData.volees.map(voleeData => {
+								// Créer une instance de Volee avec l'heure originale
+								const volee = new Volee(
+									seance,
+									voleeData.ordreVolee,
+									voleeData.idVolee,
+									voleeData.heure
+								);
+								
+								// Restaurer les flèches
+								if(voleeData.fleches && Array.isArray(voleeData.fleches)) {
+									volee.fleches = voleeData.fleches.map(flecheData => {
+										return new Fleche(volee, flecheData.valeur);
+									});
+								}
+								return volee;
+							});
+						}
+						return seance;
+					});
+				}
+				toLog("local data restaured");
+			}
+			catch(error) {
+				toLog("issue while restauring local data");
+				datamgr = new DataManager();
 			}
 		}
 		DataManager.#restauring = false;
-		toLog("local data restaured");
 		DataManager.#instance = datamgr;
 		return datamgr;
 	}

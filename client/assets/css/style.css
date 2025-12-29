@@ -7,6 +7,13 @@ body {
 	background-color: var(--emalca-dark-blue);
 	font-family: Tahoma, sans-serif;
 	color: var(--white-text);
+	margin: 0;
+	top: 0;
+	left: 0;
+}
+.banner {
+	max-width: 360px;
+	width: 100%;
 }
 button, .button-like {
 	border: 2px solid var(--white-text);
@@ -17,6 +24,9 @@ button, .button-like {
 	letter-spacing: 0.05rem;
 	color: var(--white-text);
 	font-size: 1.2rem;
+}
+.important-msg {
+	color: rgb(184, 4, 4);
 }
 h3 {
 	font-size: 1.3rem;
