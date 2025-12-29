@@ -1,6 +1,14 @@
 function displayListeSeances() {
 	afficheur.drawAppMenu();
+
+	afficheur.drawListe('Liste des séances', datamgr.getSeances(), (seance) => { return "<button class='full-width' onclick='displayListeVolees(\"" + seance.getId() + "\");'>" + seance + "</button>"; }, 'displayAddSeance', 'Ajouter une nouvelle séance');
+	
+
+	/*
 	afficheur.drawListe('Liste des séances', datamgr.getSeances(), (obj) => { return 'displayListeVolees'; }, 'displayAddSeance', 'Ajouter une nouvelle séance');
+
+
+	*/
 }
 
 function displayListeVolees(idSeance) {
@@ -16,7 +24,15 @@ function displayListeVolees(idSeance) {
 	if(volees == null) {
 		//mettre un truc ici
 	}
+
+	afficheur.drawListe('Liste des volées', volees, (volee) => { return "<button class='full-width' onclick='" + volee.hasValue('displayListeFleches', 'displayFormListeFleches') + "(\"" + volee.getId() + "\");'>" + volee + "</button>"; }, 'saveNewVolee', 'Ajouter une nouvelle volée', seance.getId());
+	
+
+
+
+	/*
 	afficheur.drawListe('Liste des volées', volees, (obj) => { return ((obj.getValue()[0] > 0) ? 'displayListeFleches' : 'displayFormListeFleches'); }, 'saveNewVolee', 'Ajouter une nouvelle volée', seance.getId());
+	*/
 }
 
 function displayListeFleches(idVolee) {
@@ -27,7 +43,12 @@ function displayListeFleches(idVolee) {
 	}
 	afficheur.setVolee(volee);
 	afficheur.drawAppMenu();
-	afficheur.drawListe("Liste des flèches", volee.getFleches());
+
+	afficheur.drawListe("Liste des flèches", volee.getFleches(), (fleche) => { return "<p>Flèche : " + fleche + "</p>"; });
+
+
+	/*
+	afficheur.drawListe("Liste des flèches", volee.getFleches());*/
 }
 
 function displayFormListeFleches(idVolee) {
@@ -41,7 +62,7 @@ function displayFormListeFleches(idVolee) {
 
 	const valeursFleche = [
 		{ name : 'Non tirée', value : '-8' },
-		{ name : '10+', value : '10+' },
+		{ name : '10+', value : '11' },
 		{ name : '10', value : '10' },
 		{ name : '9', value : '9' },
 		{ name : '8', value : '8' },
@@ -61,8 +82,6 @@ function displayFormListeFleches(idVolee) {
 		{ label: 'Flèche 3', id: 'fleche3', options: valeursFleche },
 		{ label: 'Flèche 4', id: 'fleche4', options: valeursFleche },
 		{ label: 'Flèche 5', id: 'fleche5', options: valeursFleche },
-		{ label: 'Flèche 6', id: 'fleche6', options: valeursFleche },
-		{ label: 'Flèche 7', id: 'fleche7', options: valeursFleche },
-		{ label: 'Flèche 8', id: 'fleche8', options: valeursFleche }
+		{ label: 'Flèche 6', id: 'fleche6', options: valeursFleche }
 	], 'saveFlechesVolee');
 }

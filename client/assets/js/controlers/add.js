@@ -56,12 +56,16 @@ function saveFlechesVolee() {
 	if(volee == null) {
 		return;
 	}
-	for(let i = 1; i < 9; i++) {
-		const value = document.getElementById("fleche" + i).value;
-		toLog("fleche" + i + " a la valeur " + value);
-		if(value > -2 || value == '10+') {
-			volee.addFleche(value);
+	for(let i = 1; i < 20; i++) {
+		const element = document.getElementById("fleche" + i);
+		if(element == null) break;
+		const value = element.value;
+		if(value < -1) {
+			toLog("flèche " + i + "non tirée");
+			continue;
 		}
+		toLog("fleche" + i + " a la valeur " + value);
+		volee.addFleche(value);
 	}
 	DataManager.getInstance().saveLocalStorage();
 	displayListeVolees(volee.getSeance().getId());

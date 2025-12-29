@@ -71,7 +71,6 @@ class DataManager {
 		else {
 			try {
 				DataManager.#restauring = true;
-				toLog(data);
 				// Restaurer chaque séance
 				if(data.seances && Array.isArray(data.seances)) {
 					datamgr.seances = data.seances.map(seanceData => {

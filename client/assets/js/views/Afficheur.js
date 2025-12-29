@@ -46,7 +46,7 @@ class Afficheur {
 		am.innerHTML = content;
 	}
 
-	drawListe(title, iterable, fonctionItemClick = null, fonctionAddClick = null, nameAddClick = null, paramsAddClick = null) {
+	drawListe(title, iterable, displayItemFn, fonctionAddClick = null, nameAddClick = null, paramsAddClick = null) {
 		const lt = this.getAppSpace(true);
 		if(lt == null) return;
 		let content = "<h3>" + title + "</h3>";
@@ -55,10 +55,17 @@ class Afficheur {
 		}
 		for(let key in iterable) { //Affiche les éléments de la liste
 			let obj = iterable[key];
-			if(fonctionItemClick != null) {
-				content += "<button class='full-width' onclick='" + fonctionItemClick(obj) + "(\"" + obj.getId() + "\");'>" + obj + "</button>";
+
+			content += displayItemFn(obj);
+			/*
+
+			if(displayItemFn != null) {
+				content += "<button class='full-width' onclick='" + displayItemFn(obj) + "(\"" + obj.getId() + "\");'>" + obj + "</button>";
 			}
 			else content += "<p>Flèche : " + obj.getValue()[1] + "</p>";
+
+			*/
+			
 		}
 		lt.innerHTML = content;
 	}
