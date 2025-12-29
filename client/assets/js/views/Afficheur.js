@@ -1,72 +1,48 @@
 class Afficheur {
-	#selectedSeance
-	#selectedVolee
-
-	setSeance(seance) {
-		this.#selectedSeance = seance;
-		this.#selectedVolee = null;
-	}
-
-	setVolee(volee) {
-		this.#selectedVolee = volee;
-	}
-	getVolee() {
-		return this.#selectedVolee;
-	}
-	getSeance() {
-		return this.#selectedSeance;
-	}
-
-	reset() {
-		this.#selectedSeance = null;
-		this.#selectedVolee = null;
-	}
-
-	render() {
-		this.drawAppMenu();
-	}
-
 	drawAppMenu() {
+		let content, seance, volee;
 		const am = document.getElementById("appMenu");
 		if(am === null) {
 			toLog("#appMenu n'est pas disponible");
 			return null;
 		}
-		let content = "<button onclick='getAccueil();'>Accueil</button>";
-		
-		if(this.#selectedVolee) {
-			content += "<button onclick='displayListeVolees(\"" + this.#selectedSeance.getId() + "\");'>Retour à la séance</button>";
-			content += "<br><h3>" + this.#selectedVolee.toString(true) + "</h3>";
-			content += "<div id='deleteSpace'><button onclick='showDeleteVolee();'>Supprimer cette volée</button></div>";
-		}
-		else if(this.#selectedSeance) {
-			content += "<br><h3>" + this.#selectedSeance.toString(true) + "</h3>";
-			content += "<div id='deleteSpace'><button onclick='showDeleteSeance();'>Supprimer cette séance</button></div>";
+		content = "<button onclick='getAccueil();'>Accueil</button>";
+
+		seance = main.getSelectedSeance();
+		volee = main.getSelectedVolee();
+		if(seance != null) {
+			if(volee != null) {
+				content += "<button onclick='displayListeVolees(\"" + seance.getId() + "\");'>Retour à la séance</button>";
+				content += "<br><h3>" + volee.toString(true) + "</h3>";
+				content += "<div id='deleteSpace'><button onclick='showDeleteVolee();'>Supprimer cette volée</button></div>";
+			}
+			else {
+				content += "<br><h3>" + seance.toString(true) + "</h3>";
+				content += "<div id='deleteSpace'><button onclick='showDeleteSeance();'>Supprimer cette séance</button></div>";
+			}
 		}
 		am.innerHTML = content;
 	}
 
-	drawListe(title, iterable, displayItemFn, fonctionAddClick = null, nameAddClick = null, paramsAddClick = null) {
+	drawListe(title, iterable, displayItemFn, refreshMenu, sortingSelectData = null, addButtonData = null) {
+		this.drawAppMenu();
 		const lt = this.getAppSpace(true);
 		if(lt == null) return;
 		let content = "<h3>" + title + "</h3>";
-		if(fonctionAddClick != null && nameAddClick != null) { //affiche un bouton pour ajouter un nouvel élément à la liste
-			content += "<button class='full-width' onclick='" + fonctionAddClick + "(" + (paramsAddClick != null ? '"' + paramsAddClick + '"' : "") + ");'>" + nameAddClick + "</button>";
-		}
-		for(let key in iterable) { //Affiche les éléments de la liste
-			let obj = iterable[key];
+		if(sortingSelectData != null) {
+			content += "<span class='button-like'><label for='sortingSelect'>Critères : </label><select id='sortingSelect' onchange='" + sortingSelectData.functionName + "(" + sortingSelectData.paramsList + ");'>";
+			const filterValue = sortingSelectData.filterValue;
+			for(let option of sortingSelectData.optionsList) {
 
-			content += displayItemFn(obj);
-			/*
-
-			if(displayItemFn != null) {
-				content += "<button class='full-width' onclick='" + displayItemFn(obj) + "(\"" + obj.getId() + "\");'>" + obj + "</button>";
+				content += "<option value='" + option.value + "'" + (filterValue == option.value ? " selected" : "") + ">" + option.name + "</option>";
 			}
-			else content += "<p>Flèche : " + obj.getValue()[1] + "</p>";
-
-			*/
-			
+			content += "</select></span>";
 		}
+		if(addButtonData != null && addButtonData.functionName != "") {
+			content += "<button onclick='" + addButtonData.functionName + "(" + addButtonData.paramsList + ");'>" + addButtonData.buttonName + "</button>";
+		}
+		if(sortingSelectData != null || addButtonData != null) content += "<br>";
+		for(let obj of iterable) { content += displayItemFn(obj); }
 		lt.innerHTML = content;
 	}
 

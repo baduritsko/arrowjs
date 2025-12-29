@@ -1,9 +1,17 @@
-const afficheur = new Afficheur();
-const datamgr = DataManager.loadLocalStorage();
+const main = new Main();
+const afficheur = main.getHtmlRenderer();
+const datamgr = main.getDataManager();
 
 document.addEventListener("DOMContentLoaded", () => {
-	
-	afficheur.render();
-});
 
+	getAccueil();
+
+
+});
+function getAccueil() {
+	main.reset();
+	afficheur.getAppSpace(true);
+	afficheur.drawAppMenu();
+	displayListeSeances();
+}
 

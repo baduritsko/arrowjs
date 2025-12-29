@@ -1,41 +1,21 @@
 function displayAddSeance()
 {
 	afficheur.drawForm("Ajouter une nouvelle séance", [
-		{
-			label: 'Blason',
-			id: 'blason',
-			options: [
-				{ name : 'trispots', value : 'tri' },
-				{ name : '122 cm', value : '122' },
-				{ name : '80 cm', value : '80' },
-				{ name : '60 cm', value : '60' },
-				{ name : '40 cm', value : '40', selected : true}				
-			]
-		},
-		{
-			label: 'Distance',
-			id: 'distance',
-			options: [
-				{ name : '30 mètres', value : '30' },
-				{ name : '50 mètres', value : '50' },
-				{ name : '70 mètres', value : '70' },
-				{ name : '10 mètres', value : '10' },
-				{ name : '15 mètres', value : '15' },
-				{ name : '18 mètres', value : '18', selected : true },
-				{ name : '20 mètres', value : '20' }
-			]
-		}
+		{ label: 'Blason', id: 'blason', options: Seance.typeBlasons},
+		{ label: 'Distance', id: 'distance', options: Seance.distances},
+		{ label: 'Concours', id: 'concours', options: [{ name: "Non", value: 0}, { name: "Oui", value: 1}]}
 	], 'saveNewSeance');
 }
 function saveNewSeance()
 {
 	const blason = document.getElementById("blason").value;
 	const distance = document.getElementById("distance").value;
+	const concours = (document.getElementById("concours").value == 1);
 	if(!Seance.checkBlason(blason) || !Seance.checkDistance(distance)) {
 		toLog("valeurs incorrectes");
 		return;
 	}
-	const seance = new Seance(getFormattedDate(), distance, blason);
+	const seance = new Seance(getFormattedDate(), distance, blason, concours);
 	datamgr.addSeance(seance);
 	displayListeVolees(seance.getId());
 }
@@ -47,12 +27,12 @@ function saveNewVolee(idSeance) {
 		return;
 	}
 	const volee = seance.addVolee();
-	afficheur.setVolee(volee);
+	main.setVolee(volee);
 	displayFormListeFleches(volee.getId());
 }
 
 function saveFlechesVolee() {
-	const volee = afficheur.getVolee();
+	const volee = main.getSelectedVolee();
 	if(volee == null) {
 		return;
 	}

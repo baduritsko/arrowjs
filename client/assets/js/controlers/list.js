@@ -1,14 +1,23 @@
-function displayListeSeances() {
-	afficheur.drawAppMenu();
-
-	afficheur.drawListe('Liste des séances', datamgr.getSeances(), (seance) => { return "<button class='full-width' onclick='displayListeVolees(\"" + seance.getId() + "\");'>" + seance + "</button>"; }, 'displayAddSeance', 'Ajouter une nouvelle séance');
-	
-
-	/*
-	afficheur.drawListe('Liste des séances', datamgr.getSeances(), (obj) => { return 'displayListeVolees'; }, 'displayAddSeance', 'Ajouter une nouvelle séance');
-
-
-	*/
+function displayListeSeances(filter = false) {
+	let seances = datamgr.getSeances();
+	let filterValue = null;
+	if(filter == "true") {
+		filter = true;
+		filterValue = document.getElementById("sortingSelect").value;
+		switch(filterValue) {
+			case "concoursOnly": 
+				seances = seances.filter((seance) => seance.isConcours());
+				break;
+			default: filter = false;
+		}
+	}
+	afficheur.drawListe(
+		'Liste des séances', 
+		seances, 
+		(seance) => { return "<button class='full-width' onclick='displayListeVolees(\"" + seance.getId() + "\");'>" + seance + "</button>"; }, 
+		true,
+		{ functionName: 'displayListeSeances', optionsList: [{name: "Toutes les séances", value: "all"}, {name: "Seulement les concours", value: "concoursOnly"}], paramsList: '\"true\"', filterValue: filterValue},
+		{ functionName: 'displayAddSeance', buttonName: 'Ajouter une nouvelle séance'});
 }
 
 function displayListeVolees(idSeance) {
@@ -17,22 +26,20 @@ function displayListeVolees(idSeance) {
 		toLog("Séance non trouvée");
 		return;
 	}
-	afficheur.setSeance(seance);
-	afficheur.setVolee(null);
-	afficheur.drawAppMenu();
+	main.setSeance(seance);
+	main.setVolee(null);
 	const volees = seance.getVolees();
 	if(volees == null) {
 		//mettre un truc ici
 	}
 
-	afficheur.drawListe('Liste des volées', volees, (volee) => { return "<button class='full-width' onclick='" + volee.hasValue('displayListeFleches', 'displayFormListeFleches') + "(\"" + volee.getId() + "\");'>" + volee + "</button>"; }, 'saveNewVolee', 'Ajouter une nouvelle volée', seance.getId());
-	
-
-
-
-	/*
-	afficheur.drawListe('Liste des volées', volees, (obj) => { return ((obj.getValue()[0] > 0) ? 'displayListeFleches' : 'displayFormListeFleches'); }, 'saveNewVolee', 'Ajouter une nouvelle volée', seance.getId());
-	*/
+	afficheur.drawListe(
+		'Liste des volées', 
+		volees, 
+		(volee) => { return "<button class='full-width' onclick='" + volee.hasValue('displayListeFleches', 'displayFormListeFleches') + "(\"" + volee.getId() + "\");'>" + volee + "</button>"; }, 
+		true,
+		null, 
+		{ functionName: 'saveNewVolee', buttonName: 'Ajouter une nouvelle volée', paramsList: '\"' + seance.getId()+ '\"' });
 }
 
 function displayListeFleches(idVolee) {
@@ -41,14 +48,13 @@ function displayListeFleches(idVolee) {
 		toLog("Volée non trouvée");
 		return;
 	}
-	afficheur.setVolee(volee);
-	afficheur.drawAppMenu();
-
-	afficheur.drawListe("Liste des flèches", volee.getFleches(), (fleche) => { return "<p>Flèche : " + fleche + "</p>"; });
-
-
-	/*
-	afficheur.drawListe("Liste des flèches", volee.getFleches());*/
+	main.setVolee(volee);
+	afficheur.drawListe(
+		"Liste des flèches", 
+		volee.getFleches(), 
+		(fleche) => { return "<p>Flèche : " + fleche + "</p>"; },
+		true
+	);
 }
 
 function displayFormListeFleches(idVolee) {
@@ -57,31 +63,16 @@ function displayFormListeFleches(idVolee) {
 		toLog("Volée non trouvée");
 		return;
 	}
-	afficheur.setVolee(volee);
+	main.setVolee(volee);
 	afficheur.drawAppMenu();
 
-	const valeursFleche = [
-		{ name : 'Non tirée', value : '-8' },
-		{ name : '10+', value : '11' },
-		{ name : '10', value : '10' },
-		{ name : '9', value : '9' },
-		{ name : '8', value : '8' },
-		{ name : '7', value : '7' },
-		{ name : '6', value : '6' },
-		{ name : '5', value : '5' },
-		{ name : '4', value : '4' },
-		{ name : '3', value : '3' },
-		{ name : '2', value : '2' },
-		{ name : '1', value : '1' },
-		{ name : 'Paille', value : '0' },
-		{ name : 'Perdue', value : '-1' }
-	]
+
 	afficheur.drawForm("Valeurs des flèches", [
-		{ label: 'Flèche 1', id: 'fleche1', options: valeursFleche },
-		{ label: 'Flèche 2', id: 'fleche2', options: valeursFleche },
-		{ label: 'Flèche 3', id: 'fleche3', options: valeursFleche },
-		{ label: 'Flèche 4', id: 'fleche4', options: valeursFleche },
-		{ label: 'Flèche 5', id: 'fleche5', options: valeursFleche },
-		{ label: 'Flèche 6', id: 'fleche6', options: valeursFleche }
+		{ label: 'Flèche 1', id: 'fleche1', options: Fleche.valeursFleche },
+		{ label: 'Flèche 2', id: 'fleche2', options: Fleche.valeursFleche },
+		{ label: 'Flèche 3', id: 'fleche3', options: Fleche.valeursFleche },
+		{ label: 'Flèche 4', id: 'fleche4', options: Fleche.valeursFleche },
+		{ label: 'Flèche 5', id: 'fleche5', options: Fleche.valeursFleche },
+		{ label: 'Flèche 6', id: 'fleche6', options: Fleche.valeursFleche }
 	], 'saveFlechesVolee');
 }

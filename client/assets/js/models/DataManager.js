@@ -79,6 +79,7 @@ class DataManager {
 							seanceData.date,
 							seanceData.distance,
 							seanceData.blason,
+							seanceData.concours,
 							seanceData.idSeance,
 							seanceData.compteurVolees
 						);

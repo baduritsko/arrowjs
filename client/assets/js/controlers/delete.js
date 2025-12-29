@@ -11,7 +11,7 @@ function showDeleteSeance() {
 
 function deleteSeanceCascade(idSeance) {
 	DataManager.getInstance().deleteSeance(idSeance);
-	afficheur.setSeance(null);
+	main.setSeance(null);
 	afficheur.drawAppMenu();
 	afficheur.getAppSpace(true);
 	displayListeSeances();
@@ -23,14 +23,14 @@ function showDeleteVolee() {
 		toLog("missing");
 		return;
 	}
-	let content = "<button onclick='deleteVoleeCascade(\"" + afficheur.getSeance().getId() + "\", \"" + afficheur.getVolee().getId() + "\");' class='important-msg'>Supprimer</button>";
-	content += "<button onclick='displayListeFleches(\"" + afficheur.getVolee().getId() + "\");'>Annuler</button>";
+	let content = "<button onclick='deleteVoleeCascade(\"" + main.getSelectedSeance(true) + "\", \"" + main.getSelectedVolee(true) + "\");' class='important-msg'>Supprimer</button>";
+	content += "<button onclick='displayListeFleches(\"" + main.getSelectedVolee(true) + "\");'>Annuler</button>";
 	space.innerHTML = content;
 }
 
 function deleteVoleeCascade(idSeance, idVolee) {
 	DataManager.getInstance().deleteVolee(idSeance, idVolee);
-	afficheur.setVolee(null);
+	main.setVolee(null);
 	afficheur.drawAppMenu();
 	afficheur.getAppSpace(true);
 	displayListeVolees(idSeance);
