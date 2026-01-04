@@ -80,12 +80,14 @@ class Seance {
 		return this.volees;
 	}
 	getVolee(idVolee) {
+		toLog("get volee");
 		if(idVolee instanceof Volee) {
 			idVolee = idVolee.getId();
 		}
 		for(let volee of this.volees) {
 			if(volee.getId() == idVolee) return volee;
 		}
+		toLog("volee get");
 		return null;
 	}
 	addVolee() {
@@ -95,10 +97,13 @@ class Seance {
 		return volee;
 	}
 	deleteVolee(idVolee) {
-		for(let key in this.volees) {
-			const volee = this.volees[key];
+		for(let i = 0; i < this.volees.length; i++)
+		{
+			const volee = this.volees[i];
+			if(volee == null) continue;
 			if(volee.getId() == idVolee) {
-				delete this.volees[key];
+				this.volees.splice(i, 1);
+				break;
 			}
 		}
 	}

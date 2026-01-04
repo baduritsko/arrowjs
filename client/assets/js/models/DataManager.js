@@ -25,8 +25,7 @@ class DataManager {
 	}
 
 	getSeance(idSeance) {
-		for(let key in this.seances) {
-			const seance = this.seances[key];
+		for(let seance of this.seances) {
 			if(seance.getId() == idSeance) return seance;
 		}
 		return null;
@@ -49,6 +48,7 @@ class DataManager {
 		const seance = this.getSeance(idSeance);
 		if(seance == null) return;
 		seance.deleteVolee(idVolee);
+		this.saveLocalStorage();
 	}
 
 	saveLocalStorage() {
@@ -115,6 +115,20 @@ class DataManager {
 		}
 		DataManager.#restauring = false;
 		DataManager.#instance = datamgr;
+		DataManager.#instance.checkData();
 		return datamgr;
+	}
+
+	checkData() {
+		toLog("checking data...");
+		for(let seance of this.seances) {
+			if(seance == null) toLog("one seance is null");
+			else {
+				for(let volee of seance.getVolees()) {
+					if(volee == null) toLog("one volee is null");
+				}
+			}
+		}
+		toLog("data checked");
 	}
 }

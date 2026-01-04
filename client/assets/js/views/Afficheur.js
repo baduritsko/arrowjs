@@ -42,7 +42,10 @@ class Afficheur {
 			content += "<button onclick='" + addButtonData.functionName + "(" + addButtonData.paramsList + ");'>" + addButtonData.buttonName + "</button>";
 		}
 		if(sortingSelectData != null || addButtonData != null) content += "<br>";
-		for(let obj of iterable) { content += displayItemFn(obj); }
+		for(let obj of iterable) { 
+			if(obj == null) continue;
+			content += displayItemFn(obj);
+		}
 		lt.innerHTML = content;
 	}
 

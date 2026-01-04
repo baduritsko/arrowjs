@@ -69,7 +69,7 @@ class Main {
 			this.#selectedSeance = seance;
 			return;
 		}
-		this.#selectedSeance = this.#dataManager.getSeance(seance);
+		this.#selectedSeance = (seance == null ? null : this.#dataManager.getSeance(seance));
 	}
 
 	/**
@@ -80,7 +80,7 @@ class Main {
 	setVolee(volee) {
 		this.#selectedVolee = null;
 		if(this.#selectedSeance == null) return;
-		this.#selectedVolee = this.#selectedSeance.getVolee(volee);
+		this.#selectedVolee = (volee == null ? null : this.#selectedSeance.getVolee(volee));
 	}
 
 	/**
