@@ -1,5 +1,6 @@
 class Fleche {
 	valeur = -8;
+	heure = 0;
 	#volee;
 
 	static valeursFleche = [
@@ -22,6 +23,12 @@ class Fleche {
 	constructor(volee, valeur) {
 		this.#volee = volee;
 		this.valeur = valeur;
+		this.heure = 0;
+	}
+	setheure(heure) {
+		if(heure > 0 && heure < 13) {
+			this.heure = heure;
+		}
 	}
 	getVolee() {
 		return this.#volee;
@@ -33,10 +40,39 @@ class Fleche {
 		if(shortReturn) return value;
 		return [1, value, value, 0];
 	}
+	getHeureAsText() {
+		if(this.valeur > 8 || this.valeur < 1) return "";
+		let retour = "";
+		let value = this.getDecalage(true);
+		if(value < -2) retour += " trop basse (" + value + ")";
+		if(value > 2) retour += " trop haute (" + value + ")";
+		if(value < -2)retour += " trop à gauche (" + value + ")";
+		if(value > 2) retour += " trop à droite (" + value + ")";
+		return retour;
+	}
+
+	getDistance() {
+		if(this.valeur < 1) return 0; //pour le moment annule le décalage
+		return 10 - this.valeur;
+	}
+
+	checkHeureValue() { return (this.heure < 13 && this.heure > 0); }
+	
+	convertHeureAsRad() {
+		if(!this.checkHeureValue()) return null;
+		return Math.PI * ((this.heure > 3) ? 360 - (this.heure - 3) * 30 : 30 * (3 - this.heure)) / 180;
+	}
+
+	getDecalage(vertical) {
+		let degres = this.convertHeureAsRad();
+		if(degres == null) return 0;
+		return this.getDistance() * (vertical ? Math.sin(degres) : Math.cos(degres));
+	}
+
 	toString() {
 		if(this.valeur > 10) return "10+";
 		let value = parseInt(this.valeur);
-		if(!isNaN(value) && value > 0) return value;
-		return "0 - paille";
+		if(isNaN(value) || value < 1) return "0 - paille";
+		return value + " " + this.getHeureAsText();
 	}
 }

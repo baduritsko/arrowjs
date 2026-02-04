@@ -97,7 +97,9 @@ class DataManager {
 								// Restaurer les flèches
 								if(voleeData.fleches && Array.isArray(voleeData.fleches)) {
 									volee.fleches = voleeData.fleches.map(flecheData => {
-										return new Fleche(volee, flecheData.valeur);
+										const fleche = new Fleche(volee, flecheData.valeur);
+										if(flecheData.angle) fleche.setAngle(flecheData.angle);
+										return fleche;
 									});
 								}
 								return volee;
@@ -110,7 +112,7 @@ class DataManager {
 			}
 			catch(error) {
 				toLog("issue while restauring local data");
-				datamgr = new DataManager();
+				//datamgr = new DataManager();
 			}
 		}
 		DataManager.#restauring = false;
