@@ -5,7 +5,7 @@ function displayListeSeances(filter = false) {
 		filter = true;
 		filterValue = document.getElementById("sortingSelect").value;
 		switch(filterValue) {
-			case "concoursOnly": 
+			case "concoursOnly":
 				seances = seances.filter((seance) => seance.isConcours());
 				break;
 			default: filter = false;
@@ -68,10 +68,10 @@ function displayFormListeFleches(idVolee) {
 
 	const form = new Form("Saisir une volée", 'saveFlechesVolee();');
 	for(let i = 1; i < 7; i++) {
-		form.addFieldset({ name: 'Flèche ' + i, inputs: [
-		new Select('valeur' + i, 'Valeur', Fleche.valeursFleche), 
-		new Select('heure' + i, 'Position horaire', Fleche.heureFleche), 
-		]});
+		const fieldset = new Fieldset('Flèche ' + i);
+		fieldset.addInput(new Select('valeur' + i, 'Valeur', Fleche.valeursFleche));
+		fieldset.addInput(new Select('heure' + i, 'Position horaire', Fleche.heureFleche));
+		form.addFieldset(fieldset);
 	}
 	afficheur.drawFullForm(form);
 }

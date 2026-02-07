@@ -18,7 +18,7 @@ class Select {
 			if(this.valueOnEdit != null) {
 				if(this.valueOnEdit == option.value) { selected = 'selected'; }
 			}
-			retour += "<option value='" + option.value + "'" + selected + ">" + option.name + "</option>";
+			retour.join("<option value='" + option.value + "'" + selected + ">" + option.name + "</option>");
 		}
 		retour += "</select>";
 		return retour;

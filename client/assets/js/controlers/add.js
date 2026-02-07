@@ -1,9 +1,15 @@
 function displayAddSeance()
 {
 	const form = new Form("Ajouter une nouvelle séance", 'saveNewSeance();');
-	form.addFieldset(new Select('blason', 'Blason', Seance.typeBlasons));
-	form.addFieldset(new Select('distance', 'Distance', Seance.distances));
-	form.addFieldset(new Select('concours', 'Concours', [{ name: "Non", value: 0}, { name: "Oui", value: 1}]));
+	let fieldset = new Fieldset("Blason");
+	fieldset.addInput(new Select('blason', 'Dimension', Seance.typeBlasons));
+	form.addFieldset(fieldset);
+	fieldset = new Fieldset("Pas de tir");
+	fieldset.addInput(new Select('distance', 'Distance', Seance.distances));
+	form.addFieldset(fieldset);
+	fieldset = new Fieldset("Type de séance");
+	fieldset.addInput(new Select('concours', 'Concours', [{ name: "Non", value: 0}, { name: "Oui", value: 1}]));
+	form.addFieldset(fieldset)
 	afficheur.drawFullForm(form);
 }
 function saveNewSeance()

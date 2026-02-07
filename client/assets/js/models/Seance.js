@@ -62,8 +62,8 @@ class Seance {
 	}
 	getValue() { //retourne nbFleches, total, moyenne, nbVolees
 		let total = 0, nbFleches = 0, nbVolees = 0;
-		for(let key in this.volees) {
-			const scoreVolee = this.volees[key].getValue();
+		for(const volee of this.volees) {
+			const scoreVolee = volee.getValue();
 			if(scoreVolee[0] > 0) {
 				nbFleches += scoreVolee[0];
 				total += scoreVolee[1];
@@ -81,14 +81,8 @@ class Seance {
 	}
 	getVolee(idVolee) {
 		toLog("get volee");
-		if(idVolee instanceof Volee) {
-			idVolee = idVolee.getId();
-		}
-		for(let volee of this.volees) {
-			if(volee.getId() == idVolee) return volee;
-		}
-		toLog("volee get");
-		return null;
+		if(idVolee instanceof Volee) idVolee = idVolee.getId();
+		return this.volees.find(volee => volee.getId() === idVolee) || null;
 	}
 	addVolee() {
 		const volee = new Volee(this, this.compteurVolees++);
@@ -107,7 +101,4 @@ class Seance {
 			}
 		}
 	}
-
-
-
 }

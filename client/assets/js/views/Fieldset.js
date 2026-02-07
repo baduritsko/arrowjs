@@ -12,12 +12,11 @@ class Fieldset {
 	}
 
 	render() {
-		let content = "<div class='fieldset'><span class='title'>" + this.name + "</span> -";
-		for(const input of fieldset.inputs) {
+		let content = "<div class='fieldset'><span class='title'>" + this.name + "</span> - ";
+		for(const input of this.inputs) {
 			content += input.render();
 		}
-		return content + "<div>";
+		return content + "</div>";
 	}
-
 	
 }

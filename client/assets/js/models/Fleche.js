@@ -60,11 +60,11 @@ class Fleche {
 		if(this.valeur > 8 || this.valeur < 1) return "";
 		let retour = "";
 		let value = this.getDecalage(true);
-		if(value < -2) retour += " trop basse (" + value + ")";
-		if(value > 2) retour += " trop haute (" + value + ")";
+		if(value < -2) retour += " - trop basse (" + value + ")";
+		if(value > 2) retour += " - trop haute (" + value + ")";
 		value = this.getDecalage();
-		if(value < -2)retour += " trop à gauche (" + value + ")";
-		if(value > 2) retour += " trop à droite (" + value + ")";
+		if(value < -2)retour += " - trop à gauche (" + value + ")";
+		if(value > 2) retour += " - trop à droite (" + value + ")";
 		return retour;
 	}
 

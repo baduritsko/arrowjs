@@ -29,7 +29,7 @@ class DataManager {
 	}
 
 	getVolee(idVolee) {
-		for(const seance in this.seances) {
+		for(const seance of this.seances) {
 			const volee = seance.getVolee(idVolee);
 			if(volee != null) return volee;
 		}

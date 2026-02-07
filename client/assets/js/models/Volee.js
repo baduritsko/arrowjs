@@ -42,8 +42,7 @@ class Volee {
 	}
 	getValue() { //retourne nbFleches, total, moyenne, nbVolees
 		let total = 0, nbFleches = 0;
-		for(let key in this.fleches) {
-			const fleche = this.fleches[key];
+		for(const fleche of this.fleches) {
 			total += fleche.getValue()[1];
 			nbFleches++;
 		}

@@ -33,8 +33,7 @@ class Afficheur {
 			content += "<span class='button-like'><label for='sortingSelect'>Critères : </label><select id='sortingSelect' onchange='" + sortingSelectData.functionName + "(" + sortingSelectData.paramsList + ");'>";
 			const filterValue = sortingSelectData.filterValue;
 			for(let option of sortingSelectData.optionsList) {
-
-				content += "<option value='" + option.value + "'" + (filterValue == option.value ? " selected" : "") + ">" + option.name + "</option>";
+				content.join("<option value='" + option.value + "'" + (filterValue == option.value ? " selected" : "") + ">" + option.name + "</option>");
 			}
 			content += "</select></span>";
 		}
@@ -44,7 +43,7 @@ class Afficheur {
 		if(sortingSelectData != null || addButtonData != null) content += "<br>";
 		for(let obj of iterable) { 
 			if(obj == null) continue;
-			content += displayItemFn(obj);
+			content.join(displayItemFn(obj));
 		}
 		lt.innerHTML = content;
 	}
@@ -54,37 +53,6 @@ class Afficheur {
 		const fs = this.getAppSpace(true);
 		if(fs == null) return;
 		fs.innerHTML = form.render();
-	}
-
-	drawForm(formName, iterable, fonctionSubmit, valueOnEdit = null) {/*
-		const fs = this.getAppSpace(true);
-		if(fs == null) return;
-		let content = "<h3>" + formName + "</h3>";
-		for(let key in iterable) {
-			let obj = iterable[key];
-			let options = obj.options;
-			if(options != null) {
-				content += "<div class='button-like'>";
-				const select = new Select(obj.id, obj.label, obj.options);
-				content += select.render();
-
-/*
-				
-				content += "<label for='" + obj.id + "'>" + obj.label + " : </label><select id='" + obj.id + "'>";
-				for(let optKey in options) {
-					let option = options[optKey];
-					let selected = option.hasOwnProperty('selected') ? 'selected' : '';
-					if(valueOnEdit != null) {
-						if(valueOnEdit == option.value) { selected = 'selected'; }
-					}
-					content += "<option value='" + option.value + "'" + selected + ">" + option.name + "</option>";
-				}
-				content += "</select>";
-				content += "</div>";
-			}
-		}
-		content += "<button class='full-width' onclick='" + fonctionSubmit + "();'>Ajouter</button>";
-		fs.innerHTML = content*/
 	}
 
 	getAppSpace(free = false) {
