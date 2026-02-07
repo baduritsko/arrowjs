@@ -20,12 +20,28 @@ class Fleche {
 		{ name : '0 - Perdue', value : '-1' }
 	]
 
+
+	static heureFleche = [
+		{ name : '1 - NNE', value : '1' },
+		{ name : '2 - ENE', value : '2' },
+		{ name : '3 - E', value : '3' },
+		{ name : '4 - ESE', value : '4' },
+		{ name : '5 - SSE', value : '5' },
+		{ name : '6 - S', value : '6' },
+		{ name : '7 - SSO', value : '7' },
+		{ name : '8 - OSO', value : '8' },
+		{ name : '9 - O', value : '9' },
+		{ name : '10 - ONO', value : '10' },
+		{ name : '11 - NNO', value : '11' },
+		{ name : '12 - N', value : '12' }
+	]
+
 	constructor(volee, valeur) {
 		this.#volee = volee;
 		this.valeur = valeur;
 		this.heure = 0;
 	}
-	setheure(heure) {
+	setHeure(heure) {
 		if(heure > 0 && heure < 13) {
 			this.heure = heure;
 		}
@@ -46,6 +62,7 @@ class Fleche {
 		let value = this.getDecalage(true);
 		if(value < -2) retour += " trop basse (" + value + ")";
 		if(value > 2) retour += " trop haute (" + value + ")";
+		value = this.getDecalage();
 		if(value < -2)retour += " trop à gauche (" + value + ")";
 		if(value > 2) retour += " trop à droite (" + value + ")";
 		return retour;
@@ -66,7 +83,7 @@ class Fleche {
 	getDecalage(vertical) {
 		let degres = this.convertHeureAsRad();
 		if(degres == null) return 0;
-		return this.getDistance() * (vertical ? Math.sin(degres) : Math.cos(degres));
+		return this.getDistance() * Math.round(10 * (vertical ? Math.sin(degres) : Math.cos(degres))) / 10;
 	}
 
 	toString() {

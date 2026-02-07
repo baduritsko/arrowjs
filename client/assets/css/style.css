@@ -37,6 +37,18 @@ button, .button-like {
 	color: var(--white-text);
 	font-size: 1rem;
 }
+.fieldset {
+	border: 2px solid var(--white-text);
+	background-color: var(--emalca-dark-blue);
+	border-radius: 5px;
+	padding: 5px;
+	margin: 5px;
+	color: var(--white-text);
+	font-size: 1rem;
+}
+.fieldset span.title {
+	font-size: 1.1rem;
+}
 .important-msg {
 	color: rgb(184, 4, 4);
 }

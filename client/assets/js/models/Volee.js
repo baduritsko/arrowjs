@@ -36,8 +36,7 @@ class Volee {
 		}
 		return retour;
 	}
-	addFleche(value) {
-		const fleche = new Fleche(this, value);
+	addFleche(fleche) {
 		this.fleches.push(fleche);
 		return fleche;
 	}

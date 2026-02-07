@@ -66,13 +66,12 @@ function displayFormListeFleches(idVolee) {
 	main.setVolee(volee);
 	afficheur.drawAppMenu();
 
-
-	afficheur.drawForm("Valeurs des flèches", [
-		{ label: 'Flèche 1', id: 'fleche1', options: Fleche.valeursFleche },
-		{ label: 'Flèche 2', id: 'fleche2', options: Fleche.valeursFleche },
-		{ label: 'Flèche 3', id: 'fleche3', options: Fleche.valeursFleche },
-		{ label: 'Flèche 4', id: 'fleche4', options: Fleche.valeursFleche },
-		{ label: 'Flèche 5', id: 'fleche5', options: Fleche.valeursFleche },
-		{ label: 'Flèche 6', id: 'fleche6', options: Fleche.valeursFleche }
-	], 'saveFlechesVolee');
+	const form = new Form("Saisir une volée", 'saveFlechesVolee();');
+	for(let i = 1; i < 7; i++) {
+		form.addFieldset({ name: 'Flèche ' + i, inputs: [
+		new Select('valeur' + i, 'Valeur', Fleche.valeursFleche), 
+		new Select('heure' + i, 'Position horaire', Fleche.heureFleche), 
+		]});
+	}
+	afficheur.drawFullForm(form);
 }

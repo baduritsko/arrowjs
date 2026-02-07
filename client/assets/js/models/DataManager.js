@@ -25,15 +25,12 @@ class DataManager {
 	}
 
 	getSeance(idSeance) {
-		for(let seance of this.seances) {
-			if(seance.getId() == idSeance) return seance;
-		}
-		return null;
+		return this.seances.find(seance => seance.getId() == idSeance) || null;
 	}
 
 	getVolee(idVolee) {
-		for(let key in this.seances) {
-			const volee = this.seances[key].getVolee(idVolee);
+		for(const seance in this.seances) {
+			const volee = seance.getVolee(idVolee);
 			if(volee != null) return volee;
 		}
 		return null;
@@ -98,7 +95,7 @@ class DataManager {
 								if(voleeData.fleches && Array.isArray(voleeData.fleches)) {
 									volee.fleches = voleeData.fleches.map(flecheData => {
 										const fleche = new Fleche(volee, flecheData.valeur);
-										if(flecheData.angle) fleche.setAngle(flecheData.angle);
+										if(flecheData.heure) fleche.setHeure(flecheData.heure);
 										return fleche;
 									});
 								}

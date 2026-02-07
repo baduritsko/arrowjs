@@ -49,7 +49,14 @@ class Afficheur {
 		lt.innerHTML = content;
 	}
 
-	drawForm(formName, iterable, fonctionSubmit, valueOnEdit = null) {
+
+	drawFullForm(form, valueOnEdit = null) {
+		const fs = this.getAppSpace(true);
+		if(fs == null) return;
+		fs.innerHTML = form.render();
+	}
+
+	drawForm(formName, iterable, fonctionSubmit, valueOnEdit = null) {/*
 		const fs = this.getAppSpace(true);
 		if(fs == null) return;
 		let content = "<h3>" + formName + "</h3>";
@@ -57,7 +64,13 @@ class Afficheur {
 			let obj = iterable[key];
 			let options = obj.options;
 			if(options != null) {
-				content += "<div class='button-like'><label for='" + obj.id + "'>" + obj.label + " : </label><select id='" + obj.id + "'>";
+				content += "<div class='button-like'>";
+				const select = new Select(obj.id, obj.label, obj.options);
+				content += select.render();
+
+/*
+				
+				content += "<label for='" + obj.id + "'>" + obj.label + " : </label><select id='" + obj.id + "'>";
 				for(let optKey in options) {
 					let option = options[optKey];
 					let selected = option.hasOwnProperty('selected') ? 'selected' : '';
@@ -66,11 +79,12 @@ class Afficheur {
 					}
 					content += "<option value='" + option.value + "'" + selected + ">" + option.name + "</option>";
 				}
-				content += "</select></div>";
+				content += "</select>";
+				content += "</div>";
 			}
 		}
 		content += "<button class='full-width' onclick='" + fonctionSubmit + "();'>Ajouter</button>";
-		fs.innerHTML = content;
+		fs.innerHTML = content*/
 	}
 
 	getAppSpace(free = false) {
