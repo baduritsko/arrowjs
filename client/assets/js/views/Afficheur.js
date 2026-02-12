@@ -33,7 +33,7 @@ class Afficheur {
 			content += "<span class='button-like'><label for='sortingSelect'>Critères : </label><select id='sortingSelect' onchange='" + sortingSelectData.functionName + "(" + sortingSelectData.paramsList + ");'>";
 			const filterValue = sortingSelectData.filterValue;
 			for(let option of sortingSelectData.optionsList) {
-				content.join("<option value='" + option.value + "'" + (filterValue == option.value ? " selected" : "") + ">" + option.name + "</option>");
+				content += "<option value='" + option.value + "'" + (filterValue == option.value ? " selected" : "") + ">" + option.name + "</option>";
 			}
 			content += "</select></span>";
 		}
@@ -43,7 +43,7 @@ class Afficheur {
 		if(sortingSelectData != null || addButtonData != null) content += "<br>";
 		for(let obj of iterable) { 
 			if(obj == null) continue;
-			content.join(displayItemFn(obj));
+			content += displayItemFn(obj);
 		}
 		lt.innerHTML = content;
 	}

@@ -17,13 +17,13 @@ class Volee {
 		this.fleches = [];
 	}
 	
-	getId() {
-		return this.idVolee;
-	}
-	getSeance() {
-		return this.#seance;
-	}
+	getId() { return this.idVolee; }
+	getSeance() { return this.#seance; }
 	getFleches() { return this.fleches; }
+
+
+
+	
 	toString(longString = false) {
 		let retour;
 		retour =  "Volée à " + this.heure;
@@ -40,6 +40,13 @@ class Volee {
 		this.fleches.push(fleche);
 		return fleche;
 	}
+
+
+	/**
+	 * Retourne les valeurs d'une volée
+	 * @returns - un tableau avec le nombre de flèches de la volée, le total des points, la moyenne et le nombre de volées (à 1)
+	 */
+
 	getValue() { //retourne nbFleches, total, moyenne, nbVolees
 		let total = 0, nbFleches = 0;
 		for(const fleche of this.fleches) {
@@ -49,6 +56,13 @@ class Volee {
 		if(nbFleches == 0) return [0, 0, 0, 0];
 		return [nbFleches, total, Math.round(10 * total / nbFleches) / 10, 1];
 	}
+
+	/**
+	 * Retourne un boléen qui indique 
+	 * @param {*} onTrue - la valeur à retourner si vrai (true par défaut)
+	 * @param {*} onFalse - la valeur à retourner si faux (false par défaut)
+	 * @returns - un booléen qui indique si une volée à au moins un flèche tirée
+	 */
 	hasValue(onTrue = true, onFalse = false) { 
 		return (this.getValue()[0] > 0 ? onTrue : onFalse);
 	}
