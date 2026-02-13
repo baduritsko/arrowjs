@@ -49,13 +49,16 @@ class Fleche {
 	getVolee() {
 		return this.#volee;
 	}
-	getValue(shortReturn = false) {
+	
+	getScore() {
 		let value = (this.valeur == '10+' ? 10 : parseInt(this.valeur));
 		value = (isNaN(value) ? 0 : value);
-		value = (value < 0 ? 0 : value);
-		if(shortReturn) return value;
-		return [1, value, value, 0];
+		toLog("get Score flèche " + value);
+		return new Score(1, (value < 0 ? 0 : value), 0);
 	}
+
+
+
 	getHeureAsText() {
 		if(this.valeur > 8 || this.valeur < 1) return "";
 		let retour = "";

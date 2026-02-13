@@ -11,6 +11,6 @@ function formatFrenchDate(value) {
 function toLog(texte) {
 	console.log(texte);
 }
-function conjugue(value, singulier, pluriel, addValue = false) {
+function conjugue(value, singulier, pluriel, addValue = true) {
 	return (addValue ? value + " " : "") + ((value > -2 && value < 2) ? singulier : pluriel);
 }

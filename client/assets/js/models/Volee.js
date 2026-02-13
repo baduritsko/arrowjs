@@ -21,49 +21,44 @@ class Volee {
 	getSeance() { return this.#seance; }
 	getFleches() { return this.fleches; }
 
-
-
 	
 	toString(longString = false) {
 		let retour;
-		retour =  "Volée à " + this.heure;
+		retour =  this.ordreVolee + " - Volée à " + this.heure;
 		if(longString) {
-			const values = this.getValue();
-			if(values[0] > 0) { //au moins une flèche
-				retour = "Volée de " + conjugue(values[0], 'flèche', 'flèches', true) +  " à " + this.heure;
-				retour += "<br>Total : " + values[1] + ", moyenne : " + values[2];
+			const score = this.getScore();
+			if(score.hasValue()) { //au moins une flèche
+				
+				retour = this.ordreVolee +  " - Volée de " + score.getNombreFleches(true) +  " à " + this.heure;
+				retour += "<br>Total : " + score.getTotal(true) + ", moyenne : " + score.getMoyenne();
 			}
 		}
 		return retour;
 	}
+
 	addFleche(fleche) {
 		this.fleches.push(fleche);
 		return fleche;
 	}
 
 
-	/**
-	 * Retourne les valeurs d'une volée
-	 * @returns - un tableau avec le nombre de flèches de la volée, le total des points, la moyenne et le nombre de volées (à 1)
-	 */
-
-	getValue() { //retourne nbFleches, total, moyenne, nbVolees
-		let total = 0, nbFleches = 0;
+	getScore() {
+		toLog("get Score volée");
+		const score = new Score();
 		for(const fleche of this.fleches) {
-			total += fleche.getValue()[1];
-			nbFleches++;
+			toLog("adding flèche");
+			score.addFleche(fleche);
 		}
-		if(nbFleches == 0) return [0, 0, 0, 0];
-		return [nbFleches, total, Math.round(10 * total / nbFleches) / 10, 1];
+		return score;
 	}
 
 	/**
-	 * Retourne un boléen qui indique 
+	 * Retourne un boléen qui indique si une volée à au moins un flèche tirée
 	 * @param {*} onTrue - la valeur à retourner si vrai (true par défaut)
 	 * @param {*} onFalse - la valeur à retourner si faux (false par défaut)
 	 * @returns - un booléen qui indique si une volée à au moins un flèche tirée
 	 */
 	hasValue(onTrue = true, onFalse = false) { 
-		return (this.getValue()[0] > 0 ? onTrue : onFalse);
+		return (this.getScore().hasValue() ? onTrue : onFalse);
 	}
 }

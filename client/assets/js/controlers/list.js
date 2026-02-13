@@ -36,7 +36,7 @@ function displayListeVolees(idSeance) {
 	afficheur.drawListe(
 		'Liste des volées', 
 		volees, 
-		(volee) => { return "<button class='full-width' onclick='" + volee.hasValue('displayListeFleches', 'displayFormListeFleches') + "(\"" + volee.getId() + "\");'>" + volee + "</button>"; }, 
+		(volee) => { return "<button class='full-width' onclick='" + volee.hasValue('displayListeFleches', 'displayFormListeFleches') + "(\"" + volee.getId() + "\");'>" + volee.toString(true) + "</button>"; }, 
 		true,
 		null, 
 		{ functionName: 'saveNewVolee', buttonName: 'Ajouter une nouvelle volée', paramsList: '\"' + seance.getId()+ '\"' });
