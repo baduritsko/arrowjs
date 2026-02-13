@@ -13,7 +13,7 @@ class Afficheur {
 		if(seance != null) {
 			if(volee != null) {
 				content += "<button onclick='displayListeVolees(\"" + seance.getId() + "\");'>Retour à la séance</button>";
-				content += "<br><h3>" + volee.toString(true) + "</h3>";
+				content += "<br><h3>" + volee.toString(true, true) + "</h3>";
 				content += "<div id='deleteSpace'><button onclick='showDeleteVolee();'>Supprimer cette volée</button></div>";
 			}
 			else {

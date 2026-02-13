@@ -54,7 +54,7 @@ class Fleche {
 		let value = (this.valeur == '10+' ? 10 : parseInt(this.valeur));
 		value = (isNaN(value) ? 0 : value);
 		toLog("get Score flèche " + value);
-		return new Score(1, (value < 0 ? 0 : value), 0);
+		return new Score(0, 1, (value < 0 ? 0 : value));
 	}
 
 
