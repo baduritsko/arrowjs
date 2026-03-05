@@ -1,0 +1,16 @@
+:root {
+	--jaune: #F1E32A;
+	--rouge: #C9271C;
+	--bleu: #38B5E1;
+	--noir: #1C1B17;
+
+}
+
+#cnv {
+	border: 1px solid black;
+}
+body {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}

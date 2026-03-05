@@ -10,18 +10,15 @@ class Score {
 	}
 
 	getTotal(asString = false) { 
-		if(asString) return conjugue(this.#total, 'point', 'points', true);
-		return this.#total; 
+		return asString ? accorder(this.#total, 'point', 'points', true) : this.#total; 
 	}
 
 	getNombreFleches(asString = false) { 
-		if(asString) return conjugue(this.#nombreFleches, 'flèche', 'flèches', true);
-		return this.#nombreFleches;
+		return asString ? accorder(this.#nombreFleches, 'flèche', 'flèches', true) : this.#nombreFleches;
 	}
 
 	getNombreVolees(asString = false) { 
-		if(asString) return conjugue(this.#nombreVolees, 'volée', 'volées', true);
-		return this.#nombreVolees; 
+		return asString ? accorder(this.#nombreVolees, 'volée', 'volées', true) : this.#nombreVolees; 
 	}
 
 	getMoyenne() {
@@ -30,7 +27,6 @@ class Score {
 	}
 
 	hasValue() {
-		toLog(this.#nombreFleches);
 		return (this.#nombreFleches > 0);
 	}
 

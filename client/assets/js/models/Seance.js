@@ -1,4 +1,4 @@
-class Seance {
+class Seance extends AbstractArchery {
 	idSeance;
 	volees;
 	date;
@@ -9,6 +9,7 @@ class Seance {
 
 	constructor(date, distance, blason, isConcours, idSeance = null, compteurVolees = 1) {
 		this.idSeance = (idSeance == null) ? this.idSeance = crypto.randomUUID() : idSeance;
+		this.id = this.idSeance;
 		this.date = date;
 		this.distance = distance;
 		this.blason = blason;
@@ -94,5 +95,14 @@ class Seance {
 				break;
 			}
 		}
+	}
+	getDecalage(vertical) {
+		let decalageTotal = 0;
+		let nbFleches = 0;
+		for(const volee of this.volees) {
+			decalageTotal += volee.getDecalage(vertical);
+			nbFleches += volee.getScore().getNombreFleches();
+		}
+		return nbFleches == 0 ? 0 : Math.round(10 * decalageTotal / nbFleches) / 10;
 	}
 }

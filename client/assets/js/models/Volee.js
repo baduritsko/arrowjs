@@ -1,4 +1,4 @@
-class Volee {
+class Volee extends AbstractArchery {
 	idVolee;
 	ordreVolee;
 	#seance;
@@ -7,6 +7,7 @@ class Volee {
 
 	constructor(seance, ordreVolee, idVolee = null, heure = null) {
 		this.idVolee = (idVolee == null) ? this.idVolee = crypto.randomUUID() : idVolee;
+		this.id = this.idVolee;
 		this.#seance = seance;
 		this.ordreVolee = ordreVolee;
 		if(heure == null) {

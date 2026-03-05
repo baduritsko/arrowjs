@@ -1,8 +1,7 @@
 class DataManager {
-	seances;
+	seances; //must be considered as private
 	static #restauring = false;
 	static #instance;
-
 
 	constructor() {
 		this.seances = [];
@@ -14,7 +13,6 @@ class DataManager {
 	}
 
 	addSeance(seance) {
-		toLog(seance.constructor.name);
 		if(!(seance instanceof Seance)) return;
 		this.seances.push(seance);
 		this.saveLocalStorage();
@@ -62,9 +60,7 @@ class DataManager {
 		toLog("restauring data from local storage...");
 		const data = JSON.parse(localStorage.getItem('data_arrow_js'));
 		let datamgr = new DataManager();
-		if(data == null) {
-			toLog("local file not found");
-		}
+		if(data == null) toLog("local file not found");
 		else {
 			try {
 				DataManager.#restauring = true;

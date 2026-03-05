@@ -1,4 +1,4 @@
-class Fleche {
+class Fleche extends AbstractArchery {
 	valeur = -8;
 	heure = 0;
 	#volee;
@@ -40,25 +40,21 @@ class Fleche {
 		this.#volee = volee;
 		this.valeur = valeur;
 		this.heure = 0;
+		this.id = crypto.randomUUID();
 	}
 	setHeure(heure) {
-		if(heure > 0 && heure < 13) {
-			this.heure = heure;
-		}
+		if(heure > 0 && heure < 13) this.heure = heure;
 	}
-	getVolee() {
-		return this.#volee;
-	}
+
+	getVolee() { return this.#volee; }
 	
 	getScore() {
 		let value = (this.valeur == '10+' ? 10 : parseInt(this.valeur));
 		value = (isNaN(value) ? 0 : value);
-		toLog("get Score flèche " + value);
 		return new Score(0, 1, (value < 0 ? 0 : value));
 	}
 
-
-
+	/*
 	getHeureAsText() {
 		if(this.valeur > 8 || this.valeur < 1) return "";
 		let retour = "";
@@ -66,10 +62,11 @@ class Fleche {
 		if(value < -2) retour += " - trop basse (" + value + ")";
 		if(value > 2) retour += " - trop haute (" + value + ")";
 		value = this.getDecalage();
-		if(value < -2)retour += " - trop à gauche (" + value + ")";
+		if(value < -2) retour += " - trop à gauche (" + value + ")";
 		if(value > 2) retour += " - trop à droite (" + value + ")";
 		return retour;
 	}
+	*/
 
 	getDistance() {
 		if(this.valeur < 1) return 0; //pour le moment annule le décalage
@@ -84,7 +81,7 @@ class Fleche {
 	}
 
 	getDecalage(vertical) {
-		let degres = this.convertHeureAsRad();
+		const degres = this.convertHeureAsRad();
 		if(degres == null) return 0;
 		return this.getDistance() * Math.round(10 * (vertical ? Math.sin(degres) : Math.cos(degres))) / 10;
 	}
